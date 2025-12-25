@@ -7,9 +7,13 @@ using namespace std;
 int main() {
 	int option;
 	UsersMap users;
+	std::unordered_map<std::string, long long> balances;
 	loadUsers(users, "data/users.db" );
 	cout << "Loaded users:" << users.size() << endl;
 	std::string username, password;
+	bool loggedIn = false;
+	std::string currentUser = "";
+
     do {
 		cout << "1) Register" << endl;
 		cout << "2) Login" << endl;
@@ -49,6 +53,24 @@ int main() {
 
     			if (loginAccount(users, username, password)) {
     				cout << "Login Successfully" << endl;
+    				currentUser = username;
+    				loggedIn = true;
+					int option1;
+    				do {
+    					cout << "1) Balance " << endl;
+    					cout << "2) Deposit " << endl;
+    					cout << "3) Withdraw " << endl;
+    					cout << "4) Logout " << endl;
+    					cin >> option1;
+
+    					switch (option1) {
+    						case 1:
+    							cout << "user's balance" << endl;
+    					}
+    				} while (option1 != 4);
+    				loggedIn = false;
+    				currentUser = "";
+
     			} else {
     				cout << "Login Failed" << endl;
     			}
