@@ -1,3 +1,4 @@
+#pragma once
 #include <Auth.h>
 #include <string>
 

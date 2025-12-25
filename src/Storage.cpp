@@ -22,6 +22,10 @@ bool loadUsers(UsersMap &users, const std::string &filename) {
 		std::getline(ss, username, '|');
 		std::getline(ss, salt, '|');
 		std::getline(ss, hash, '|');
+		// Strip Windows CR if present (CRLF files on /mnt/c)
+		if (!hash.empty() && hash.back() == '\r') {
+			hash.pop_back();
+		}
 		User u;
 		u.username = username;
 		u.salt = salt;

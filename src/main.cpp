@@ -8,6 +8,7 @@ int main() {
 	int option;
 	UsersMap users;
 	loadUsers(users, "data/users.db" );
+	cout << "Loaded users:" << users.size() << endl;
 	std::string username, password;
     do {
 		cout << "1) Register" << endl;
