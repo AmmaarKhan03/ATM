@@ -42,6 +42,11 @@ bool saveUsers(const UsersMap &users, const std::string &filename) {
 		return false;
 	}
 
-	for (users.first, us)
+	for (const auto &entry : users) {
+		const User &user = entry.second;
+		file << user.username << "|"
+			 << user.salt << "|"
+		     << user.passwordHash << "\n";
+	}
 	return true;
 }

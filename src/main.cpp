@@ -1,4 +1,5 @@
 #include "Auth.h"
+#include "Storage.h"
 #include <iostream>
 #include <limits>
 using namespace std;
@@ -6,6 +7,7 @@ using namespace std;
 int main() {
 	int option;
 	UsersMap users;
+	loadUsers(users, "data/users.db" );
 	std::string username, password;
     do {
 		cout << "1) Register" << endl;
@@ -31,6 +33,7 @@ int main() {
     			cout << "Create a password: " ;
     			cin >> password; cout << endl;
     			if (registerAccount(users, username,password)) {
+    				saveUsers(users, "data/users.db");
     				cout << "Account created" << endl;
     			} else {
     				cout << "Username already exists" << endl;
