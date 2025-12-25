@@ -8,8 +8,6 @@ include_directories(data)
 include_directories(src)
 
 add_executable(ATM
-        data/accounts.db
-        data/users.db
         src/Auth.cpp
         src/Auth.h
         src/Bank.cpp
