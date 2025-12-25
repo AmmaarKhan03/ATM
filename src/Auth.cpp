@@ -25,9 +25,20 @@ std::string hashPassword(const std::string &salt, const std::string &password) {
 }
 
 
-bool registerAccount(const UsersMap& users, const std::string &username, const std::string &password) {
+bool registerAccount(UsersMap& users, const std::string &username, const std::string &password) {
 
-	if () {
+	if (users.find(username) != users.end()) {
+		return false;
+	} else {
+		std::string salt = generateSalt(username);
+		std::string hash = hashPassword(salt, password);
+
+		User newUser;                 // create a struct called newUser
+		newUser.username = username;
+		newUser.salt = salt;
+		newUser.passwordHash = hash;
+
+		users[username] = newUser;  // adding our struct using our username to our unordered map
 
 	}
 	return true;
