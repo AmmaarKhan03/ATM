@@ -21,14 +21,15 @@ int main() {
     		cout << "invalid input. Please enter a number." << endl;
     		continue;
     	}
+    	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
     	switch (option) {
     		case 1:
     			cout << "Register selected" << endl;
     			cout << "Create a Username: ";
-    			cin >> username;
-    			cout << endl;
-    			cout << "Create a password: ";
-    			cin >> password;
+    			cin >> username; cout << endl;
+    			cout << "Create a password: " ;
+    			cin >> password; cout << endl;
     			if (registerAccount(users, username,password)) {
     				cout << "Account created" << endl;
     			} else {
@@ -38,10 +39,9 @@ int main() {
     		case 2:
     			cout << "Login selected" << endl;
     			cout << "Enter your username: ";
-    			cin >> username;
-    			cout << endl;
+    			cin >> username; cout << endl;
     			cout << "Enter your password: ";
-    			cin >> password;
+    			cin >> password; cout << endl;
 
     			if (loginAccount(users, username, password)) {
     				cout << "Login Successfully" << endl;

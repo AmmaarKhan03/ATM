@@ -45,11 +45,19 @@ bool registerAccount(UsersMap& users,
 }
 
 bool loginAccount(const UsersMap& users, const std::string &username, const std::string &password) {
-
-	if (users.find(username) == users.end()) {
+	const auto it = users.find(username);
+	if (it == users.end()) {
 		return false;
 	}
 
+	// extract User from the map
+	const User &user = it -> second;   // second is <username, User> it is pointing to the struct inside the map
 
-	return true;
+	std::string attemptHash = hashPassword(user.salt, password);
+	if (attemptHash == user.passwordHash) {
+		return true;
+	} else {
+		return false;
+	}
+
 }
