@@ -62,6 +62,12 @@ int main() {
     					cout << "3) Withdraw " << endl;
     					cout << "4) Logout " << endl;
     					cin >> option1;
+    					if (cin.fail()) {
+    						cin.clear();
+    						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    						cout << "invalid input. Please enter a number." << endl;
+    						continue;
+    					}
     					const long long cents = balances[currentUser];
     					const long long dollar = cents / 100;
     					const long long remainingCents = cents % 100;
@@ -80,7 +86,14 @@ int main() {
     							break;
 
     						case 3:
-								cout <<
+								cout << "how much would you like to withdraw?" << endl;
+    							cout << "Withdraw: ";
+    							cin >> dollars;
+    							if (dollars > balances[currentUser]) {
+    								cout << "Insufficient funds" << endl;
+    							} else {
+    								balances[currentUser] - dollars;
+    							}
     							break;
 
     						case 4:
