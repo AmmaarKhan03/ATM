@@ -62,11 +62,28 @@ int main() {
     					cout << "3) Withdraw " << endl;
     					cout << "4) Logout " << endl;
     					cin >> option1;
+    					const long long cents = balances[currentUser];
+    					const long long dollars = cents / 100;
+    					const long long remainingCents = cents % 100;
 
     					switch (option1) {
     						case 1:
-    							cout << "user's balance" << endl;
-    					}
+    							cout << "Balance: $";
+    							cout << dollars << "." << (remainingCents < 10 ? "0" : "") << remainingCents << endl;
+    							break;
+    						case 2:
+								cout << "how m"
+    							break;
+
+    						case 3:
+
+    							break;
+
+    						case 4:
+    							cout << "Logging out" << endl;
+						    default:
+    							cout << "Error" << endl;
+					    }
     				} while (option1 != 4);
     				loggedIn = false;
     				currentUser = "";
