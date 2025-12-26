@@ -2,6 +2,7 @@
 #include "Storage.h"
 #include <iostream>
 #include <limits>
+#include <unordered_map>
 using namespace std;
 
 int main() {
@@ -9,6 +10,7 @@ int main() {
 	UsersMap users;
 	std::unordered_map<std::string, long long> balances;
 	loadUsers(users, "data/users.db" );
+	loadBalances(balances, "data/accounts.db");
 	cout << "Loaded users:" << users.size() << endl;
 	std::string username, password;
 	bool loggedIn = false;
@@ -55,6 +57,9 @@ int main() {
     				cout << "Login Successfully" << endl;
     				currentUser = username;
     				loggedIn = true;
+    				if (balances.find(currentUser) == balances.end()) {
+    					balances[currentUser] = 0;
+    				}
 					int option1;
     				do {
     					cout << "1) Balance " << endl;
@@ -90,7 +95,9 @@ int main() {
     								cout << "invalid input. Please enter a number." << endl;
     								continue;
     							}
-    							balances[currentUser] += (dollars * 100);
+    							balances[currentUser] += (long long)dollars * 100;
+    							saveBalances(balances, "data/accounts.db");
+
     							break;
     						}
     						case 3: {
@@ -109,6 +116,8 @@ int main() {
     								cout << "Insufficient funds" << endl;
     							} else {
     								balances[currentUser] -= withdrawCents;
+    								saveBalances(balances, "data/accounts.db");
+
     							}
     							break;
     						}

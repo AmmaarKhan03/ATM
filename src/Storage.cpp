@@ -89,8 +89,8 @@ bool saveBalances(const std::unordered_map<std::string, long long> &balances, co
 		return false;
 	}
 
-	for (auto const &bal : balances) {
-		file << bal.first << '|' << bal.second << endl;
+	for (const auto &bal : balances) {
+		file << bal.first << '|' << bal.second << "\n";
 	}
 
 	return true;
