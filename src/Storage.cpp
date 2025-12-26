@@ -54,3 +54,44 @@ bool saveUsers(const UsersMap &users, const std::string &filename) {
 	}
 	return true;
 }
+
+bool loadBalances(std::unordered_map<std::string, long long> &balances, const std::string &filename) {
+
+	std::ifstream file(filename);
+
+	if (!file.is_open()) {
+		return true;
+	}
+
+	std::string line;
+	while (std::getline(file, line)) {
+		std::stringstream ss(line);
+		std::string username, balanceStr;
+		std::getline(ss, username, '|');
+		std::getline(ss,balanceStr,'|');
+		if (!balanceStr.empty() && balanceStr.back() == '\r') {
+			balanceStr.pop_back();
+		}
+		long long balance = std::stoll(balanceStr);
+
+
+		balances[username] = balance;
+	}
+
+	return true;
+}
+
+
+bool saveBalances(const std::unordered_map<std::string, long long> &balances, const std::string &filename) {
+
+	std::ofstream file(filename);
+	if (!file.is_open()) {
+		return false;
+	}
+
+	for (auto const &bal : balances) {
+		file << bal.first << '|' << bal.second << endl;
+	}
+
+	return true;
+}
