@@ -68,36 +68,53 @@ int main() {
     						cout << "invalid input. Please enter a number." << endl;
     						continue;
     					}
-    					const long long cents = balances[currentUser];
-    					const long long dollar = cents / 100;
-    					const long long remainingCents = cents % 100;
+    					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     					switch (option1) {
-    						case 1:
+    						case 1: {
     							cout << "Balance: $";
+    							const long long cents = balances[currentUser];
+    							const long long dollar = cents / 100;
+    							const long long remainingCents = cents % 100;
     							cout << dollar << "." << (remainingCents < 10 ? "0" : "") << remainingCents << endl;
     							break;
-    						case 2:
+    						}
+    						case 2: {
     							int dollars;
-								cout << "how much would you like to deposit?" << endl;
+    							cout << "how much would you like to deposit?" << endl;
     							cout << "Amount: ";
     							cin >> dollars;
+    							if (cin.fail()) {
+    								cin.clear();
+    								cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    								cout << "invalid input. Please enter a number." << endl;
+    								continue;
+    							}
     							balances[currentUser] += (dollars * 100);
     							break;
-
-    						case 3:
-								cout << "how much would you like to withdraw?" << endl;
+    						}
+    						case 3: {
+    							int dollars;
+    							cout << "how much would you like to withdraw?" << endl;
     							cout << "Withdraw: ";
     							cin >> dollars;
-    							if (dollars > balances[currentUser]) {
+    							if (cin.fail()) {
+    								cin.clear();
+    								cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    								cout << "invalid input. Please enter a number." << endl;
+    								continue;
+    							}
+    							long long withdrawCents = (long long)dollars * 100;
+    							if (withdrawCents > balances[currentUser]) {
     								cout << "Insufficient funds" << endl;
     							} else {
-    								balances[currentUser] - dollars;
+    								balances[currentUser] -= withdrawCents;
     							}
     							break;
-
+    						}
     						case 4:
     							cout << "Logging out" << endl;
+    							break;
 						    default:
     							cout << "Error" << endl;
 					    }
