@@ -17,11 +17,15 @@ bool loadUsers(UsersMap &users, const std::string &filename) {
 
 	std::string line;
 	while (std::getline(file,line)) {  // gets line then moves to the next
+		if (line.empty()) continue;
+
 		std::stringstream ss(line);
 		std::string username, salt, hash;
+
 		std::getline(ss, username, '|');
 		std::getline(ss, salt, '|');
 		std::getline(ss, hash, '|');
+
 		// Strip Windows CR if present (CRLF files on /mnt/c)
 		if (!hash.empty() && hash.back() == '\r') {
 			hash.pop_back();
@@ -65,17 +69,27 @@ bool loadBalances(std::unordered_map<std::string, long long> &balances, const st
 
 	std::string line;
 	while (std::getline(file, line)) {
+		if (line.empty()) continue;
+
 		std::stringstream ss(line);
 		std::string username, balanceStr;
+
 		std::getline(ss, username, '|');
 		std::getline(ss,balanceStr,'|');
+
 		if (!balanceStr.empty() && balanceStr.back() == '\r') {
 			balanceStr.pop_back();
 		}
-		long long balance = std::stoll(balanceStr);
 
+		if (username.empty() || balanceStr.empty()) continue;
 
-		balances[username] = balance;
+		try {
+			long long balance = std::stoll(balanceStr);
+			balances[username] = balance;
+		} catch (...) {
+			// skip malformed line
+			continue;
+		}
 	}
 
 	return true;

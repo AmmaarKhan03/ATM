@@ -1,28 +1,36 @@
 #include "Auth.h"
 #include "Storage.h"
+#include "Bank.h"
 #include <iostream>
 #include <limits>
 #include <unordered_map>
 using namespace std;
 
+
+static void printBalance(const BalancesMap &balances, const std::string &user) {
+	const long long cents = getBalanceCents(balances, user);
+	const long long dollars = cents / 100;
+	const long long rem = cents % 100;
+
+	cout << "Balance: $" << dollars << "." << (rem < 10 ? "0" : "") << rem << endl;
+}
+
 int main() {
 	int option;
+
 	UsersMap users;
-	std::unordered_map<std::string, long long> balances;
+	BalancesMap balances;
+
 	loadUsers(users, "data/users.db" );
 	loadBalances(balances, "data/accounts.db");
-	cout << "Loaded users:" << users.size() << endl;
+
 	std::string username, password;
 	bool loggedIn = false;
 	std::string currentUser = "";
 
     do {
-		cout << "1) Register" << endl;
-		cout << "2) Login" << endl;
-    	cout << "3) Exit" << endl;
-    	cin >> option;
-    	cout << endl;
-
+		cout << "1) Register\n" << "2) Login\n" << "3) Exit\n";
+    	cin >> option; cout << endl;
     	// if cin fails, reset cin then discard the bad input and continue back to the top of the loop
     	if (cin.fail()) {
     		cin.clear();
@@ -34,10 +42,8 @@ int main() {
 
     	switch (option) {
     		case 1:
-    			cout << "Register selected" << endl;
-    			cout << "Create a Username: ";
-    			cin >> username; cout << endl;
-    			cout << "Create a password: " ;
+    			cout << "Register selected\n" << "Create a Username: ";
+    			cin >> username; cout << endl; cout << "Create a password: " ;
     			cin >> password; cout << endl;
     			if (registerAccount(users, username,password)) {
     				saveUsers(users, "data/users.db");
@@ -52,20 +58,19 @@ int main() {
     			cin >> username; cout << endl;
     			cout << "Enter your password: ";
     			cin >> password; cout << endl;
+    			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     			if (loginAccount(users, username, password)) {
     				cout << "Login Successfully" << endl;
     				currentUser = username;
     				loggedIn = true;
-    				if (balances.find(currentUser) == balances.end()) {
-    					balances[currentUser] = 0;
-    				}
+
+    				ensureAccount(balances, currentUser); //create balance entry if missing
+
+
 					int option1;
     				do {
-    					cout << "1) Balance " << endl;
-    					cout << "2) Deposit " << endl;
-    					cout << "3) Withdraw " << endl;
-    					cout << "4) Logout " << endl;
+    					cout << "1) Balance\n" << "2) Deposit\n" << "3) Withdraw\n" << "4) Logout\n";
     					cin >> option1;
     					if (cin.fail()) {
     						cin.clear();
@@ -78,47 +83,54 @@ int main() {
     					switch (option1) {
     						case 1: {
     							cout << "Balance: $";
-    							const long long cents = balances[currentUser];
-    							const long long dollar = cents / 100;
-    							const long long remainingCents = cents % 100;
-    							cout << dollar << "." << (remainingCents < 10 ? "0" : "") << remainingCents << endl;
+    							printBalance(balances, currentUser);
     							break;
     						}
     						case 2: {
-    							int dollars;
+    							long long dollars;
     							cout << "how much would you like to deposit?" << endl;
     							cout << "Amount: ";
     							cin >> dollars;
+
     							if (cin.fail()) {
     								cin.clear();
     								cin.ignore(numeric_limits<streamsize>::max(), '\n');
     								cout << "invalid input. Please enter a number." << endl;
-    								continue;
+    								break;
     							}
-    							balances[currentUser] += (long long)dollars * 100;
-    							saveBalances(balances, "data/accounts.db");
+    							cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+    							if (!depositDollars(balances, currentUser, dollars)) {
+    								cout << "Invalid deposit amount" << endl;
+    								break;
+    							}
+
+    							saveBalances(balances, "data/accounts.db");
+    							cout << "Deposit successful" << endl;
     							break;
     						}
     						case 3: {
-    							int dollars;
+    							long long dollars;
     							cout << "how much would you like to withdraw?" << endl;
     							cout << "Withdraw: ";
     							cin >> dollars;
+
     							if (cin.fail()) {
     								cin.clear();
     								cin.ignore(numeric_limits<streamsize>::max(), '\n');
     								cout << "invalid input. Please enter a number." << endl;
-    								continue;
+    								break;
     							}
-    							long long withdrawCents = (long long)dollars * 100;
-    							if (withdrawCents > balances[currentUser]) {
-    								cout << "Insufficient funds" << endl;
-    							} else {
-    								balances[currentUser] -= withdrawCents;
-    								saveBalances(balances, "data/accounts.db");
+    							cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+
+    							if (!withdrawDollars(balances, currentUser, dollars)) {
+    								cout << "Insufficient funds or invalid amount" << endl;
+    								break;
     							}
+
+    							saveBalances(balances, "data/accounts.db");
+    							cout << "Withdraw successful" << endl;
     							break;
     						}
     						case 4:
@@ -145,5 +157,7 @@ int main() {
 
 
     } while (option !=3);
+
+	return 0;
 
 }
