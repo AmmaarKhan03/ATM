@@ -110,6 +110,13 @@ int main() {
     							}
 
     							saveBalances(balances, "data/accounts.db");
+    							appendTransaction(
+    										"data/transaction.db",
+											currentUser,
+											 "DEPOSIT",
+											 dollars * 100,
+											 balances[currentUser]
+										);
     							cout << "Deposit successful" << endl;
     							break;
     						}
@@ -134,6 +141,13 @@ int main() {
     							}
 
     							saveBalances(balances, "data/accounts.db");
+    							appendTransaction(
+											"data/transaction.db",
+												currentUser,
+													"WITHDRAW",
+												dollars * 100,
+											balances[currentUser]
+												);
     							cout << "Withdraw successful" << endl;
     							break;
     						}
