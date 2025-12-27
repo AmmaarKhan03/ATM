@@ -51,18 +51,31 @@ behavior, rather than UI polish.
 🗂 Project Structure
 
 ATM/
+
 ├── data/
+
 │   ├── users.db          # user credentials (username|salt|hash)
+
 │   ├── accounts.db       # balances (username|balanceCents)
+
 │   └── transactions.db  # append-only transaction log
+
 │
+
 ├── src/
+
 │   ├── Auth.h / Auth.cpp
+
 │   ├── Bank.h / Bank.cpp
+
 │   ├── Storage.h / Storage.cpp
+
 │   └── main.cpp
+
 │
+
 ├── CMakeLists.txt
+
 └── README.md
 
 🛠 Build & Run
