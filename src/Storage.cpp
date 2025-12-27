@@ -4,6 +4,10 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <ctime>
+
+
+
 
 bool loadUsers(UsersMap &users, const std::string &filename) {
 
@@ -106,6 +110,37 @@ bool saveBalances(const std::unordered_map<std::string, long long> &balances, co
 	for (const auto &bal : balances) {
 		file << bal.first << '|' << bal.second << "\n";
 	}
+
+	return true;
+}
+
+static std::string currentTimestamp() {
+	std::time_t now = std::time(nullptr);
+	std::tm localTime{};
+	localtime_s(&now, &localTime); //
+
+	char buffer[20];
+	std::strftime(buffer, sizeof(buffer),
+				  "%Y-%m-%d %H:%M:%S",
+				  &localTime);
+
+	return std::string(buffer);
+}
+bool appendTransaction(const std::string &filename, const std::string &username,
+						const std::string &type, long long amountCents, long long balanceAfterCents) {
+	std::ofstream file(filename, std::ios::app); // std::ios::app, opens file in append mode
+	if (!file.is_open()) {
+		return false;
+	}
+
+	std::string ts = currentTimestamp();
+
+	file << username << '|'
+		 << ts << '|'
+		 << type << '|'
+		 << amountCents
+		 << '|'
+		 << balanceAfterCents << '\n';
 
 	return true;
 }
