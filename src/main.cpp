@@ -7,6 +7,9 @@
 using namespace std;
 
 
+
+
+
 static void printBalance(const BalancesMap &balances, const std::string &user) {
 	const long long cents = getBalanceCents(balances, user);
 	const long long dollars = cents / 100;
@@ -15,7 +18,9 @@ static void printBalance(const BalancesMap &balances, const std::string &user) {
 	cout << "Balance: $" << dollars << "." << (rem < 10 ? "0" : "") << rem << endl;
 }
 
+
 int main() {
+
 	int option;
 
 	UsersMap users;
@@ -82,7 +87,6 @@ int main() {
 
     					switch (option1) {
     						case 1: {
-    							cout << "Balance: $";
     							printBalance(balances, currentUser);
     							break;
     						}
