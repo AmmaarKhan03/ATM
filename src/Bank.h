@@ -3,6 +3,8 @@
 #include <unordered_map>
 
 using BalancesMap = std::unordered_map<std::string, long long>;
+using WithDrawnToday = std::unordered_map<std::string, long long>;
+
 
 
 void ensureAccount(BalancesMap &balances, const std::string &username);

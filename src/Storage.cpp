@@ -117,7 +117,8 @@ bool saveBalances(const std::unordered_map<std::string, long long> &balances, co
 static std::string currentTimestamp() {
 	std::time_t now = std::time(nullptr);
 	std::tm localTime{};
-	localtime_s(&now, &localTime); //
+
+	localtime_s( &localTime, &now); //
 
 	char buffer[20];
 	std::strftime(buffer, sizeof(buffer),
