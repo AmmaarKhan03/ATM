@@ -20,6 +20,7 @@ behavior, rather than UI polish.
         Safe handling of invalid credentials
         
   💰 Banking System
+  
         Persistent account balances (accounts.db)
         Deposit and withdrawal support
         ATM rule enforcement:
