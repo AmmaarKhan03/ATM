@@ -10,10 +10,15 @@ behavior, rather than UI polish.
 ✨ Features
 
   🔐 Authentication
+  
         User registration and login
+        
         Salted password hashing
+        
         Persistent user storage (users.db)
+        
         Safe handling of invalid credentials
+        
   💰 Banking System
         Persistent account balances (accounts.db)
         Deposit and withdrawal support
