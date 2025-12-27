@@ -67,17 +67,20 @@ ATM/
 
 🛠 Build & Run
 Requirements
+  
     C++14 or newer
     CMake
     CLion / MinGW / GCC / Clang
 
 Build
+
     mkdir build
     cd build
     cmake ..
     cmake --build .
 
 Run
+
     ./ATM
 
 ⚠️ The program assumes it is run from the project root so relative paths like 
@@ -85,44 +88,48 @@ data/users.db resolve correctly.
 
 📄 Data Formats
   users.db
+  
       username|salt|passwordHash
   accounts.db
+  
       username|balanceCents
   transactions.db
+  
       username|YYYY-MM-DD HH:MM:SS|TYPE|amountCents|balanceAfterCents
 
 
 Example:
 
-ammar|2025-01-03 22:41:12|DEPOSIT|4000|4000
+    ammar|2025-01-03 22:41:12|DEPOSIT|4000|4000
 
 🧠 Design Decisions
 
-Balances stored in cents (long long) to avoid floating-point errors
-Append-only transaction log for auditability
-Business logic isolated from file I/O
-Relative paths + fixed working directory to avoid data loss
-Minimal global state, passed explicitly where needed
+    Balances stored in cents (long long) to avoid floating-point errors
+    Append-only transaction log for auditability
+    Business logic isolated from file I/O
+    Relative paths + fixed working directory to avoid data loss
+    Minimal global state, passed explicitly where needed
 
 🚀 Future Improvements
 
-Transaction history viewer
-User-to-user transfers
-SQLite backend
-Account lockout after repeated failed logins
-Password input masking
-Unit tests
+    Transaction history viewer
+    User-to-user transfers
+    SQLite backend
+    Account lockout after repeated failed logins
+    Password input masking
+    Unit tests
 
 📌 Why this project matters
 
-This project demonstrates:
-Practical C++ system design
-File persistence and data integrity
-Real-world banking constraints
-Debugging build/runtime issues
-Clean modular architecture
-It is intentionally not a toy example.
+    This project demonstrates:
+    Practical C++ system design
+    File persistence and data integrity
+    Real-world banking constraints
+    Debugging build/runtime issues
+    Clean modular architecture
+    It is intentionally not a toy example.
 
 👤 Author
-Ammaar Khan
-Computer Science Student / C++ Developer
+
+    Ammaar Khan
+    Computer Science Student / C++ Developer
