@@ -12,11 +12,8 @@ behavior, rather than UI polish.
   🔐 Authentication
   
         User registration and login
-        
         Salted password hashing
-        
         Persistent user storage (users.db)
-        
         Safe handling of invalid credentials
         
   💰 Banking System
@@ -29,6 +26,7 @@ behavior, rather than UI polish.
         Daily withdrawal limit: $500
         Overdraft protection
   🧾 Transaction Logging
+  
         Append-only transaction log (transactions.db)
         Each transaction records:
         Username
@@ -38,10 +36,12 @@ behavior, rather than UI polish.
         Balance after transaction
         Designed like a real audit log (never rewritten)
   💾 Persistent Storage
+  
       File-based storage using standard C++ I/O
       Data survives program restarts
       Clear separation between state files and logs
   🧱 Clean Architecture
+  
       Auth → authentication & password handling
       Bank → business logic & rules
       Storage → file persistence
@@ -49,6 +49,7 @@ behavior, rather than UI polish.
 
 
 🗂 Project Structure
+
 ATM/
 ├── data/
 │   ├── users.db          # user credentials (username|salt|hash)
