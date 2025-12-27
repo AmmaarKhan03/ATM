@@ -8,6 +8,7 @@ This project focuses on clean architecture, data persistence, and realistic syst
 behavior, rather than UI polish.
 
 ✨ Features
+
   🔐 Authentication
         User registration and login
         Salted password hashing
